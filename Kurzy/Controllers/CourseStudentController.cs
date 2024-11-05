@@ -1,4 +1,5 @@
 ﻿using Kurzy.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Kurzy.Controllers
@@ -14,12 +15,14 @@ namespace Kurzy.Controllers
             _service = service;
         }
 
+        [Authorize]
         [HttpPost("studentToCourse")]
         public IActionResult AddStudentToCourse(int idCourse, int idStudent)
         {
             return Ok(_service.AddStudentToCourse(idCourse, idStudent));
         }
 
+        [Authorize]
         [HttpDelete("studentFromCourse")]
         public IActionResult DeleteStudentFromCourse(int idCourse, int idStudent)
         {

@@ -11,6 +11,7 @@
                 return $"{FirstName} {LastName}";
             }
         }
+        public UserRole Role { get; set; }
         public string Password { get; set; } = null!;
     }
 }

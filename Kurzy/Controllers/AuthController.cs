@@ -30,7 +30,7 @@ namespace Kurzy.Controllers
 
             if (_authService.IsAuthenticated(loginRequest)) 
             {
-                var token = _authService.GenerateJwt(loginRequest.UserName);
+                var token = _authService.GenerateJwt(loginRequest);
                 return Ok(new { Token = token });
             }
 

@@ -1,6 +1,7 @@
 using Kurzy.Models;
 using Kurzy.Services;
 using Kurzy.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
@@ -18,18 +19,21 @@ namespace Kurzy.Controllers
             _service = service;
         }
 
+        [Authorize]
         [HttpGet("Users")]
         public IActionResult GetUsers(UserRole role)
         {
             return Ok(_service.GetUsers(role));
         }
 
+        [Authorize]
         [HttpGet("User")]
         public IActionResult GetUser(int id)
         {
             return Ok(_service.GetUser(id));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost("User")]
         public IActionResult AddUser([FromBody] User newUser)
         {
@@ -41,6 +45,7 @@ namespace Kurzy.Controllers
             return Ok(_service.AddUser(newUser));
         }
 
+        [Authorize]
         [HttpPut("User")]
         public IActionResult PutUser([FromBody] User user)
         {
@@ -52,6 +57,7 @@ namespace Kurzy.Controllers
             return Ok(_service.PutUser(user));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("User")]
         public IActionResult DeleteUser(int id)
         {

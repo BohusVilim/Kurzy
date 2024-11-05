@@ -34,7 +34,7 @@ namespace Kurzy.Services
             var verificationResult = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, loginRequest.Password);
             return verificationResult == PasswordVerificationResult.Success;
         }
-        public string GenerateJwt(string username)
+        public string GenerateJwt(LoginRequest loginRequest)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.UTF8.GetBytes(_jwtSettings.Key);
@@ -42,9 +42,10 @@ namespace Kurzy.Services
             {
                 Subject = new ClaimsIdentity(new[]
                 {
-                    new Claim(JwtRegisteredClaimNames.Sub, username),
+                    new Claim(JwtRegisteredClaimNames.Sub, loginRequest.UserName),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                    new Claim(ClaimTypes.Name, username)
+                    new Claim(ClaimTypes.Name, loginRequest.UserName),
+                    new Claim(ClaimTypes.Role, loginRequest.Role.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddMinutes(_jwtSettings.DurationInMinutes),
                 Issuer = _jwtSettings.Issuer,
